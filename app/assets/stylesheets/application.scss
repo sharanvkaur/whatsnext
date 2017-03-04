@@ -14,3 +14,46 @@
 
  @import "bootstrap-sprockets";
  @import "bootstrap";
+
+
+ .movie-img {
+   height: 450px;
+   width: 300px;
+   margin: 20px;
+ }
+
+ .container {
+   background-color: oldlace;
+   padding-bottom: 30px;
+ }
+
+ .center {
+   background-color: lightcyan;
+   margin: 0 auto;
+   text-align: center;
+ }
+
+ .media-object {
+   padding: 30px;
+   border: 1px solid;
+   width: 500px;
+ }
+
+ .media-body {
+   border: 1px solid;
+   padding: 30px;
+ }
+
+ .movie-container {
+   background-color: plum;
+   word-wrap: break-word;
+   height: 100%;
+   padding: 40px;
+ }
+
+.footer {
+  background-color: black;
+  color: white;
+  text-align: center;
+
+}

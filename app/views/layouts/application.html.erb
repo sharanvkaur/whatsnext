@@ -5,11 +5,15 @@
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
     <%= render "partials/header" %>
-    <%= yield %>
+    <div class="container">
+      <%= yield %>
+    </div>
+    <%= render "partials/footer" %>
+
+    <%= javascript_include_tag 'application' %>
   </body>
 </html>

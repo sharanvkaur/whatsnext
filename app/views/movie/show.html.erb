@@ -1,0 +1,32 @@
+
+<h1>Movie#show</h1>
+<p>Find me in app/views/movie/show.html.erb</p>
+
+
+<div class="movie-container">
+  <div class="media">
+    <div class="media-left">
+      <a href="#">
+        <img class="media-object" src="<%= @movie["Poster"] %>" alt="...">
+      </a>
+    </div>
+    <div class="media-body">
+      <h1><%= @movie["Title"] %></h1>
+      <h2><%= @movie["Year"] %></h2>
+      <p><%= @movie["Plot"] %></p>
+      <p><%= @movie["Runtime"] %></p>
+      <p><%= @movie["Released"] %></p>
+      <p><%= @movie["Genre"] %></p>
+      <p><%= @movie["Director"] %></p>
+      <p><%= @movie["Actors"] %></p>
+      <p><%= @movie["Awards"] %></p>
+      <p><%= @movie["Metascore"] %></p>
+      <p><%= @movie["imdbRating"] %></p>
+      <p><%= @movie["imdbVotes"] %></p>
+      <p><%= @movie["imdbID"] %></p>
+      <%= link_to('add to list', root_path, :class => 'btn btn-large btn-info')  %>
+    </div>
+  </div>
+
+
+</div>
