@@ -45,6 +45,9 @@
       <ul class="nav navbar-nav navbar-right">
 
       <% if current_user %>
+        <li><a href="/collections/<%= current_user.id %>">
+          my collection
+        </a></li>
         <li><a><%= current_user.name %> logged in with <%= current_user.provider %></a></li>
         <li><%= link_to "Logout", auth_logout_path %></li>
       <% else %>

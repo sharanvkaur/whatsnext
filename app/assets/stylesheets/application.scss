@@ -22,10 +22,10 @@
    margin: 20px;
  }
 
- .container {
-   background-color: oldlace;
-   padding-bottom: 30px;
- }
+ // .container {
+ //   background-color: silver;
+ //   padding: 10px;
+ // }
 
  .center {
    background-color: lightcyan;
@@ -33,30 +33,62 @@
    text-align: center;
  }
 
+// INDIV MOVIE PAGE
+.movie-container {
+  // background-color: plum;
+  //  word-wrap: break-word;
+  //  height: 100%;
+  // padding: 40px;
+  width: 80%;
+  margin: 0 auto;
+}
+
+ .media-left {
+   padding: 10px;
+   width: 45%;
+ }
  .media-object {
-   padding: 30px;
-   border: 1px solid;
-   width: 500px;
+   width: 100%;
  }
 
  .media-body {
-   border: 1px solid;
-   padding: 30px;
+   padding: 15px 100px 0px 20px;
  }
 
- .movie-container {
-   background-color: plum;
-   word-wrap: break-word;
-   height: 100%;
-   padding: 40px;
+ // COLLECTION PAGE
+ // .panel {
+ //   width: 60%;
+ //  //  margin: 0 auto;
+ // }
+ .section {
+   width: 40%;
+ }
+ .votes {
+   width: 10%;
+ }
+ .badge {
+   height: 34px;
+   width: 40px;
+   padding: 15px 0px 35px 0px;
+   background-color: white;
+   color: black;
+   font-size: 20px;
+ }
+ .list-object {
+   height: 150px;
+   width: 100px;
+ }
+ .smol {
+   width: 120px;
  }
 
+
+// FOOTER
 .footer {
   background-color: black;
   color: white;
   text-align: center;
 }
-
 html {
   position: relative;
   min-height: 100%;

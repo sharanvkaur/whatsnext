@@ -3,10 +3,12 @@ Rails.application.routes.draw do
   #
   # get 'movie/show'
 
-  root 'movie#index'
+  root 'collections#index'
 
-  get '/index', to: 'movie#index'
-  get '/show', to: 'movie#show'
+  resources :collections
+
+  get '/index', to: 'movies#index'
+  get '/show', to: 'movies#show'
 
 
   get 'auth/logout' => 'auth#logout'

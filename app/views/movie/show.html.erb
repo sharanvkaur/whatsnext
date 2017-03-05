@@ -24,7 +24,14 @@
       <p><%= @movie["imdbRating"] %></p>
       <p><%= @movie["imdbVotes"] %></p>
       <p><%= @movie["imdbID"] %></p>
-      <%= link_to('add to list', root_path, :class => 'btn btn-large btn-info')  %>
+      <%= link_to('add to list', collection_index_path, :class => 'btn btn-large btn-info')  %>
+
+      <%= form_for :collection, url: {:controller => 'collection', :action => 'create'} do |t| %>
+      <%= t.hidden_field :movie_id, :value => @movie["imdbID"] %>
+      <%= t.hidden_field :user_id, :value => current_user.id %>
+      <%= t.submit "RSVP", :class => "btn-info" %>
+      <% end %>
+
     </div>
   </div>
 

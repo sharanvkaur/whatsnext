@@ -1,0 +1,47 @@
+
+<div class="movie-container">
+  <div class="media">
+    <div class="media-left">
+      <a href="#">
+        <img class="media-object" src="<%= @movie["Poster"] %>" alt="<%= @movie["Title"] %>" />
+      </a>
+    </div>
+
+    <div class="media-body">
+
+      <h1><%= @movie["Title"] %></h1>
+      <h2><%= @movie["Year"] %></h2>
+      <p><%= @movie["Plot"] %></p>
+      <p><%= @movie["Runtime"] %></p>
+      <p><%= @movie["Released"] %></p>
+      <p><%= @movie["Genre"] %></p>
+      <p><%= @movie["Director"] %></p>
+      <p><%= @movie["Actors"] %></p>
+      <p><%= @movie["Awards"] %></p>
+      <p><%= @movie["Metascore"] %></p>
+      <p><%= @movie["imdbRating"] %></p>
+      <p><%= @movie["imdbVotes"] %></p>
+      <p><%= @movie["imdbID"] %></p>
+
+        <%= form_for :collection, url: {
+          :controller => 'collections',
+          :action => 'create'
+          } do |t| %>
+
+          <%= t.hidden_field :user_id, :value => current_user %>
+          <%= t.hidden_field :movie_id, :value => @movie["imdbID"] %>
+          <%= t.hidden_field :movie_title, :value => @movie["Title"] %>
+          <%= t.hidden_field :movie_poster, :value => @movie["Poster"] %>
+          <%= t.hidden_field :movie_year, :value => @movie["Year"] %>
+          <%= t.hidden_field :movie_plot, :value => @movie["Plot"] %>
+          <%= t.hidden_field :movie_runtime, :value => @movie["Runtime"] %>
+          <%= t.hidden_field :movie_genre, :value => @movie["Genre"] %>
+          <%= t.hidden_field :movie_metascore, :value => @movie["Metascore"] %>
+          <%= t.hidden_field :movie_imdbRating, :value => @movie["imdbRating"] %>
+
+          <%= t.submit "add to my collection", :class => "btn btn-info" %>
+        <% end %>
+
+    </div>
+  </div>
+</div>
