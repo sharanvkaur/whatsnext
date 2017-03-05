@@ -30,26 +30,28 @@
           </ul>
         </li>
 
+
+
+      </ul>
+
+
+     <%= form_tag("/index", method: "get", class: "navbar-form navbar-left") do %>
+       <%= text_field_tag(:q, nil, placeholder: "search by movie title", class: "form-control") %>
+       <%= submit_tag("Search", class: "btn btn-default") %>
+     <% end %>
+
+
+
+      <ul class="nav navbar-nav navbar-right">
+
+      <% if current_user %>
+        <li><a><%= current_user.name %> logged in with <%= current_user.provider %></a></li>
+        <li><%= link_to "Logout", auth_logout_path %></li>
+      <% else %>
         <li><%= link_to "Login with Facebook", "/auth/facebook" %></li>
         <li><%= link_to "Login with Twitter", "/auth/twitter" %></li>
-      </ul>
-
-      <ul class="nav navbar-nav navbar-right">
-
-      <%= form_tag("/index", method: "get") do %>
-        <%= text_field_tag(:q) %>
-        <%= submit_tag("Search") %>
       <% end %>
     </ul>
-      
-
-
-      <% if @current_user %>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a><%= @current_user.name %></a></li>
-        <li><%= link_to "Logout", auth_logout_path %></li>
-      </ul>
-      <% end %>
 
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

@@ -1,5 +1,6 @@
 <div class="center">
   <h1>Movie#index</h1>
+  <%= current_user.inspect %>
 <p>Find me in app/views/movie/index.html.erb</p>
 
 <%= form_tag("/index", method: "get") do %>
@@ -10,7 +11,7 @@
 
 <% @movies.each do |movie| %>
 
-<a href='/show?q=<%= movie["imdbID"] %>'><img class="movie-img" src="<%= movie["Poster"] %>" /></a>
+<a href='/show?q=<%= movie["imdbID"] %>'><img class="movie-img" src="<%= movie["Poster"] %>" alt="<%= movie["Title"] %>" /></a>
 
 
 <% end %>
