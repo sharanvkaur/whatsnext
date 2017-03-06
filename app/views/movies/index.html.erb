@@ -1,12 +1,31 @@
 <div class="center">
-  <h1>Movie#index</h1>
-  <p>Find me in app/views/movie/index.html.erb</p>
 
+  <% if @movies.count == 0 %>
+    <div class="row" style="background-color:silver; margin-top:80px">
 
-<% @movies.each do |movie| %>
+      <div class="col-md-6">
+        <%= image_tag "whatnext.png", :style => "height: 100%; width: 100%" %>
+      </div>
 
-<a href='/show?q=<%= movie["imdbID"] %>'><img class="movie-img" src="<%= movie["Poster"] %>" alt="<%= movie["Title"] %>" /></a>
+      <div class="col-md-6">
+        <div class="inside">
+          <h1>Friends don't let friends watch bad movies.</h1>
+          <h2>Add a movie to your list now.</h2>
+          <%= form_tag("/index", method: "get", class: "navbar-form") do %>
+            <%= text_field_tag(:q, nil, placeholder: "search by movie title", class: "form-control") %>
+            <%= submit_tag("Search", class: "btn btn-default") %>
+          <% end %>
+        </div>
+      </div>
 
+    </div>
 
-<% end %>
+  <% else %>
+    <% @movies.each do |movie| %>
+      <a href='/show?q=<%= movie["imdbID"] %>'>
+        <img class="movie-img" src="<%= movie["Poster"] %>" alt="<%= movie["Title"] %>" />
+      </a>
+    <% end %>
+  <% end %>
+
 </div>

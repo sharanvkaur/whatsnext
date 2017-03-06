@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   #
   # get 'movie/show'
 
-  root 'collections#index'
+  root 'movies#index'
 
   resources :collections
 

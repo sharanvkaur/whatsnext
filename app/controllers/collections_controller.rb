@@ -22,7 +22,7 @@ class CollectionsController < ApplicationController
     @collection = current_user.collections.new(collection_params)
 
     if @collection.save
-      redirect_to root_path, notice: "Added to collection"
+      redirect_to collections_path, notice: "Added to collection"
     else
       redirect_to root_path
     end

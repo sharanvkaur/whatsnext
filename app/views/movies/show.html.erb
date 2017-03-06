@@ -23,6 +23,12 @@
       <p><%= @movie["imdbVotes"] %></p>
       <p><%= @movie["imdbID"] %></p>
 
+      <% if !current_user %>
+        <h4>Want to add this to your own collection?</h4>
+        <%= link_to "Login with Facebook!", "/auth/facebook", class: "btn btn-default" %>
+        <%= link_to "Login with Twitter!", "/auth/twitter", class: "btn btn-default" %>
+
+      <% else %>
         <%= form_for :collection, url: {
           :controller => 'collections',
           :action => 'create'
@@ -41,7 +47,7 @@
 
           <%= t.submit "add to my collection", :class => "btn btn-info" %>
         <% end %>
-
+      <% end %>
     </div>
   </div>
 </div>
