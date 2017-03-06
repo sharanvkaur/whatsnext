@@ -1,0 +1,105 @@
+<div class="row">
+  <div class="col-md-8">
+    <% if @collections.count == 0 %>
+    <div class="center"> <%= image_tag("nothinghere.jpg") %></div>
+
+    <% else %>
+
+  <% @collections.each do |collection| %>
+      <div class="media panel" style="border: 1px dotted">
+
+        <div class="media-left votes">
+
+          <% if current_user && current_user.upvoted?(collection) %>
+            <%= button_to "SO GOOD", upvote_collection_path(collection), method: :post, class: "btn btn-success" %>
+            <% elsif current_user %>
+            <%= button_to "SO GOOD", upvote_collection_path(collection), method: :post, class: "btn btn-default" %>
+          <% end %>
+
+
+          <span class="badge"><%= collection.upvotes %></span>
+          <span class="badge">
+            <% if collection.downvotes > 0 %>
+            -
+            <% end %>
+            <%= collection.downvotes %></span>
+
+            <% if current_user && current_user.downvoted?(collection) %>
+              <%= button_to "this sucks", downvote_collection_path(collection), method: :post, class: "btn btn-danger" %>
+            <% elsif current_user %>
+              <%= button_to "this sucks", downvote_collection_path(collection), method: :post, class: "btn btn-default" %>
+            <% end %>
+
+        </div>
+
+
+        <div class="media-left smol">
+          <a href='/show?q=<%= collection.movie_id %>'>
+            <img class="list-object" src="<%= collection.movie_poster %>" alt="<%= collection.movie_title %>">
+          </a>
+        </div>
+
+        <div class="media-body">
+          <h4 class="media-heading"><%= collection.movie_title %></h4>
+          <p><%= collection.movie_plot %></p>
+          <p>Upvotes:
+            <% @votes.each do |vote| %>
+              <% if collection.id == vote.collection_id && vote.upvote == 1 %>
+              <span class="name"><%= User.find(vote.user_id).name %></span>
+              <% end %>
+            <% end %>
+          </p>
+          <p>Downvotes:
+            <% @votes.each do |vote| %>
+              <% if collection.id == vote.collection_id && vote.downvote == 1 %>
+              <span class="name"><%= User.find(vote.user_id).name %></span>
+              <% end %>
+            <% end %>
+          </p>
+
+          <% if logged_in? && current_user.id == collection.user_id %>
+            <%= link_to "remove from my collection", collection, class: "btn btn-sm btn-danger", method: :delete, data: { confirm: "Are you sure?" } %>
+          <% elsif logged_in? && current_user.id != collection.user_id %>
+            <%= form_for :collection, url: {:controller => 'collections', :action => 'create'} do |t| %>
+
+            <%= t.hidden_field :user_id, :value => current_user %>
+            <%= t.hidden_field :movie_id, :value => collection.movie_id %>
+            <%= t.hidden_field :movie_title, :value => collection.movie_title %>
+            <%= t.hidden_field :movie_poster, :value => collection.movie_poster %>
+            <%= t.hidden_field :movie_year, :value => collection.movie_year %>
+            <%= t.hidden_field :movie_plot, :value => collection.movie_plot %>
+            <%= t.hidden_field :movie_runtime, :value => collection.movie_runtime %>
+            <%= t.hidden_field :movie_genre, :value => collection.movie_genre %>
+            <%= t.hidden_field :movie_metascore, :value => collection.movie_metascore %>
+            <%= t.hidden_field :movie_imdbRating, :value => collection.movie_imdbRating %>
+
+            <%= t.submit "add to my collection", :class => "btn btn-sm btn-info" %>
+            <% end %>
+          <% else %>
+            <h4>Add this to your movies!</h4>
+            <%= link_to "Login with Facebook!", "/auth/facebook", class: "btn btn-default" %>
+            <%= link_to "Login with Twitter!", "/auth/twitter", class: "btn btn-default" %>
+          <% end %>
+
+        </div>
+      </div>
+  <% end %>
+  <% end %>
+
+</div>
+
+  <div class="col-md-4" style="background-color: lightcyan">
+    <section>
+      Browse other users' collections
+      <ul>
+    <% @users.each do |user| %>
+      <li>
+        <a href="/collections/<%= user.id %>">
+          <%= user.name %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+  </section>
+  </div>
+</div>

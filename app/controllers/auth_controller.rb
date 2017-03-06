@@ -1,5 +1,4 @@
 class AuthController < ApplicationController
-
   def callback
     provider_user = request.env['omniauth.auth']
 
@@ -10,7 +9,8 @@ class AuthController < ApplicationController
     end
 
     session[:user_id] = user.id
-    redirect_to collections_path
+    # redirect_to collections_path(session[:user_id])
+    redirect_to request.env['omniauth.origin']
   end
 
   def logout

@@ -5,7 +5,18 @@ Rails.application.routes.draw do
 
   root 'movies#index'
 
-  resources :collections
+  resources :collections do
+    post :upvote, on: :member
+    post :downvote, on: :member
+  end
+
+  # resources :users do
+  #   resources :collections do
+  #     post :upvote, on: :member
+  #     post :downvote, on: :member
+  #   end
+  # end
+
 
   get '/index', to: 'movies#index'
   get '/show', to: 'movies#show'

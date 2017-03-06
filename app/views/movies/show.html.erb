@@ -29,10 +29,7 @@
         <%= link_to "Login with Twitter!", "/auth/twitter", class: "btn btn-default" %>
 
       <% else %>
-        <%= form_for :collection, url: {
-          :controller => 'collections',
-          :action => 'create'
-          } do |t| %>
+        <%= form_for :collection, url: {:controller => 'collections', :action => 'create'} do |t| %>
 
           <%= t.hidden_field :user_id, :value => current_user %>
           <%= t.hidden_field :movie_id, :value => @movie["imdbID"] %>

@@ -8,6 +8,8 @@ class MoviesController < ApplicationController
     else
 			@movies = []
 		end
+    @collections = Collection.all
+    @users = User.all
   end
 
   def show
