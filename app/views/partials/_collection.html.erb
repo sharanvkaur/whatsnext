@@ -1,12 +1,13 @@
 <div class="row">
-  <div class="col-md-8">
+  <div class="col-md-9">
+    <div>
     <% if @collections.count == 0 %>
-    <div class="center"> <%= image_tag("nothinghere.jpg") %></div>
+      <%= image_tag("nothinghere.jpg") %>
 
     <% else %>
 
   <% @collections.each do |collection| %>
-      <div class="media panel" style="border: 1px dotted">
+      <div class="media panel">
 
         <div class="media-left votes">
 
@@ -30,6 +31,10 @@
               <%= button_to "this sucks", downvote_collection_path(collection), method: :post, class: "btn btn-default" %>
             <% end %>
 
+            <div class="points" style="border: 1px solid; width: 80%; margin: 20% 10%; font-size: 30px; text-align:center">
+              <%= collection.points %>
+            </div>
+
         </div>
 
 
@@ -39,7 +44,7 @@
           </a>
         </div>
 
-        <div class="media-body">
+        <div class="media-body deets">
           <h4 class="media-heading"><%= collection.movie_title %></h4>
           <p><%= collection.movie_plot %></p>
           <p>Upvotes:
@@ -58,8 +63,13 @@
           </p>
 
           <% if logged_in? && current_user.id == collection.user_id %>
-            <%= link_to "remove from my collection", collection, class: "btn btn-sm btn-danger", method: :delete, data: { confirm: "Are you sure?" } %>
+            <%= link_to "remove from my collection", collection, class: "btn btn-sm btn-warning", method: :delete, data: { confirm: "Are you sure?" } %>
+
           <% elsif logged_in? && current_user.id != collection.user_id %>
+            <% if @my_movies.where("movie_title = ?", collection.movie_title).first %>
+            <%= link_to "remove from my collection", collection, class: "btn btn-sm btn-warning", method: :delete, data: { confirm: "Are you sure?" } %>
+            <% else %>
+
             <%= form_for :collection, url: {:controller => 'collections', :action => 'create'} do |t| %>
 
             <%= t.hidden_field :user_id, :value => current_user %>
@@ -75,6 +85,7 @@
 
             <%= t.submit "add to my collection", :class => "btn btn-sm btn-info" %>
             <% end %>
+            <% end %>
           <% else %>
             <h4>Add this to your movies!</h4>
             <%= link_to "Login with Facebook!", "/auth/facebook", class: "btn btn-default" %>
@@ -87,10 +98,11 @@
   <% end %>
 
 </div>
+</div>
 
-  <div class="col-md-4" style="background-color: lightcyan">
+  <div class="col-md-3" style="background-color: white">
     <section>
-      Browse other users' collections
+      <h3>Browse other users' collections</h3>
       <ul>
     <% @users.each do |user| %>
       <li>

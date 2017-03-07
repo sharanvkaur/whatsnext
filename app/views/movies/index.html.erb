@@ -1,7 +1,7 @@
 <div class="center">
 
   <% if @movies.count == 0 %>
-    <div class="row" style="background-color:silver; margin-top:80px">
+    <div class="row" style="margin-top:80px">
 
       <div class="col-md-6">
         <%= image_tag "whatnext.png", :style => "height: 100%; width: 100%" %>
@@ -15,12 +15,13 @@
             <%= text_field_tag(:q, nil, placeholder: "search by movie title", class: "form-control") %>
             <%= submit_tag("Search", class: "btn btn-default") %>
           <% end %>
+
         </div>
       </div>
 
     </div>
 
-    <div style="background-color: lightgreen; margin-top:50px">
+    <div style="background-color: white; margin-top:50px">
       <h1>Browse our users' collections</h1>
       <% @users.each do |user| %>
       <a href='/collections/<%= user.id %>'>
@@ -29,7 +30,7 @@
       <% end %>
     </div>
 
-    <div style="background-color: lightcyan; margin-top:50px">
+    <div style="background-color: white; margin-top:50px">
       <h1>Movies in our users' collections...</h1>
       <% @collections.each do |collection| %>
         <a href='/show?q=<%= collection.movie_id %>'>

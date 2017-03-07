@@ -63,10 +63,10 @@
  }
 
  // COLLECTION PAGE
- // .panel {
- //   width: 60%;
- //  //  margin: 0 auto;
- // }
+ .panel {
+   padding-bottom: 3px;
+   border-bottom: 3px solid;
+ }
  .section {
    width: 40%;
  }
@@ -82,21 +82,26 @@
    font-size: 20px;
  }
  .list-object {
-   height: 150px;
-   width: 100px;
- }
- .smol {
+   height: 180px;
    width: 120px;
  }
+ .smol {
+   width: 150px;
+ }
  .name {
-   background-color: black;
+   background-color: slategrey;
+   padding: 2px 5px;
    color: white;
+   font-size: 10px;
+ }
+ .deets {
+   padding-top: 8px;
  }
 
 
 // FOOTER
 .footer {
-  background-color: black;
+  background-color: #222222;
   color: white;
   text-align: center;
 }
@@ -113,5 +118,5 @@ body {
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
-  height: 60px;
+  height: 30px;
 }

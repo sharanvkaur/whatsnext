@@ -8,7 +8,7 @@ class MoviesController < ApplicationController
     else
 			@movies = []
 		end
-    @collections = Collection.all
+    @collections = Collection.select(:movie_poster, :movie_id, :movie_title).distinct.order("movie_title ASC")
     @users = User.all
   end
 
@@ -21,5 +21,9 @@ class MoviesController < ApplicationController
 		else
 			@movie = {}
 		end
+
+    if current_user
+      @user_has_movie = Collection.where(movie_id: (params[:q]), user_id: current_user.id).first
+    end
   end
 end

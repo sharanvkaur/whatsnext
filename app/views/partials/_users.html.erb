@@ -1,0 +1,14 @@
+<div style="background-color: lightcyan">
+  <section>
+    Browse other users' collections
+    <ul>
+  <% @users.each do |user| %>
+    <li>
+      <a href="/collections/<%= user.id %>">
+        <%= user.name %>
+      </a>
+    </li>
+  <% end %>
+</ul>
+</section>
+</div>

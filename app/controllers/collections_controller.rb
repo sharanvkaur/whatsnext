@@ -14,7 +14,11 @@ class CollectionsController < ApplicationController
 
     @user = User.where("id = ?", params[:id]).first
 
-    @collections = Collection.where("user_id = ?", params[:id])
+    @collections = Collection.where("user_id = ?", params[:id]).order('created_at DESC')
+
+    if current_user
+      @my_movies = Collection.where("user_id = ?", current_user.id)
+    end
   end
 
   def new
@@ -34,7 +38,7 @@ class CollectionsController < ApplicationController
   def destroy
     collection = Collection.find_by(id: params[:id])
       collection.destroy
-      # redirect_to collection_path(@collection.user_id), notice: 'Collection successfully deleted'
+      redirect_to collection_path(current_user.id), notice: 'Collection successfully deleted'
   end
 
 
@@ -49,6 +53,7 @@ class CollectionsController < ApplicationController
       current_user.upvote(collection)
     end
 
+    collection.calc_points
     redirect_to collection_path(collection.user_id), notice: "you kenot"
   end
 
@@ -63,6 +68,7 @@ class CollectionsController < ApplicationController
       current_user.downvote(collection)
     end
 
+    collection.calc_points
     redirect_to collection_path(collection.user_id)
   end
 
