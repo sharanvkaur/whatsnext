@@ -14,7 +14,7 @@ class CollectionsController < ApplicationController
 
     @user = User.where("id = ?", params[:id]).first
 
-    @collections = Collection.where("user_id = ?", params[:id]).order('created_at DESC')
+    @collections = Collection.where("user_id = ?", params[:id]).order('points DESC')
 
     if current_user
       @my_movies = Collection.where("user_id = ?", current_user.id)

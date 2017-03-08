@@ -14,14 +14,10 @@
                 <% elsif current_user %>
                   <%= button_to "watch!", upvote_collection_path(collection), method: :post, class: "btn btn-default" %>
                 <% end %>
-                <span class="badge"><%= collection.upvotes %></span>
-                <span class="badge">
-                  <% if collection.downvotes > 0 %>-<% end %>
-                  <%= collection.downvotes %>
-                </span>
+
 
                 <% if current_user && current_user.downvoted?(collection) %>
-                  <%= button_to "meh", downvote_collection_path(collection), method: :post, class: "btn btn-sm btn-danger" %>
+                  <%= button_to "meh", downvote_collection_path(collection), method: :post, class: "btn btn-sm btn-warning" %>
                 <% elsif current_user %>
                   <%= button_to "meh", downvote_collection_path(collection), method: :post, class: "btn btn-default" %>
                 <% end %>
@@ -29,6 +25,34 @@
                 <div class="points">
                   <h3><%= collection.points %></h3>
                 </div>
+
+                <% if logged_in? && current_user.id == collection.user_id %>
+                  <%= link_to "X", collection, class: "btn btn-danger", method: :delete, data: { confirm: "Are you sure?" } %>
+
+                <% elsif logged_in? && current_user.id != collection.user_id %>
+                  <% if @my_movies.where("movie_title = ?", collection.movie_title).first %>
+                  <%= link_to "X", collection, class: "btn btn-danger", method: :delete, data: { confirm: "Are you sure?" } %>
+                  <% else %>
+
+                  <%= form_for :collection, url: {:controller => 'collections', :action => 'create'} do |t| %>
+
+                  <%= t.hidden_field :user_id, :value => current_user %>
+                  <%= t.hidden_field :movie_id, :value => collection.movie_id %>
+                  <%= t.hidden_field :movie_title, :value => collection.movie_title %>
+                  <%= t.hidden_field :movie_poster, :value => collection.movie_poster %>
+                  <%= t.hidden_field :movie_year, :value => collection.movie_year %>
+                  <%= t.hidden_field :movie_plot, :value => collection.movie_plot %>
+                  <%= t.hidden_field :movie_runtime, :value => collection.movie_runtime %>
+                  <%= t.hidden_field :movie_genre, :value => collection.movie_genre %>
+                  <%= t.hidden_field :movie_metascore, :value => collection.movie_metascore %>
+                  <%= t.hidden_field :movie_imdbRating, :value => collection.movie_imdbRating %>
+
+                  <%= t.submit "+", :class => "btn btn-info" %>
+                  <% end %>
+                  <% end %>
+                  <% end %>
+
+
             </div>
 
             <div class="col-xs-7 col-sm-4">
@@ -54,32 +78,9 @@
                   <% end %>
                 <% end %>
               </p>
-              <% if logged_in? && current_user.id == collection.user_id %>
-                <%= link_to "remove from my collection", collection, class: "btn btn-warning", method: :delete, data: { confirm: "Are you sure?" } %>
 
-              <% elsif logged_in? && current_user.id != collection.user_id %>
-                <% if @my_movies.where("movie_title = ?", collection.movie_title).first %>
-                <%= link_to "remove from my collection", collection, class: "btn btn-warning", method: :delete, data: { confirm: "Are you sure?" } %>
-                <% else %>
-
-                <%= form_for :collection, url: {:controller => 'collections', :action => 'create'} do |t| %>
-
-                <%= t.hidden_field :user_id, :value => current_user %>
-                <%= t.hidden_field :movie_id, :value => collection.movie_id %>
-                <%= t.hidden_field :movie_title, :value => collection.movie_title %>
-                <%= t.hidden_field :movie_poster, :value => collection.movie_poster %>
-                <%= t.hidden_field :movie_year, :value => collection.movie_year %>
-                <%= t.hidden_field :movie_plot, :value => collection.movie_plot %>
-                <%= t.hidden_field :movie_runtime, :value => collection.movie_runtime %>
-                <%= t.hidden_field :movie_genre, :value => collection.movie_genre %>
-                <%= t.hidden_field :movie_metascore, :value => collection.movie_metascore %>
-                <%= t.hidden_field :movie_imdbRating, :value => collection.movie_imdbRating %>
-
-                <%= t.submit "add to my collection", :class => "btn btn-info" %>
-                <% end %>
-                <% end %>
-              <% else %>
-                <h4>Log in to add this to your movies!</h4>
+              <% if !logged_in? %>
+                <h5>Log in to add this to your movies!</h5>
               <% end %>
             </div>
           </div>

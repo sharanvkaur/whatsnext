@@ -1,4 +1,4 @@
-<% if !logged_in? %>
+<% if !logged_in? && @movies.length == 0 %>
   <div class="row row-eq-height">
 
     <div class="col-xs-12 col-sm-6 col-md-5 col-md-offset-1">
@@ -28,9 +28,8 @@
     <img class="movie-img" src="<%= movie["Poster"] %>" alt="<%= movie["Title"] %>" />
   </a>
   <% end %>
-<% end %>
-</div>
 
+<% else %>
 <div class="text-center">
   <h3>Browse our users' collections</h3>
   <ul>
@@ -50,3 +49,4 @@
   </a>
   <% end %>
 </div>
+<% end %>
