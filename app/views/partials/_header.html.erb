@@ -1,31 +1,27 @@
 <nav class="navbar navbar-default navbar-inverse">
-  <div class="container-fluid">
+  <div class="container text-center">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">
+          <%= image_tag "logo.jpg", :style => "height: 40px; width: 40px; margin: -10px" %>
+        </a>
+      </div>
 
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/">
-        <%= image_tag "logo.jpg", :style => "height: 40px; width: 40px; margin: -10px" %>
-      </a>
-      <a class="navbar-brand" href="/">
-        <span class="brand">what's next?</span>
-      </a>
-    </div>
+        <%= form_tag("/index", method: "get", class: "navbar-form navbar-left form-inline") do %>
+        <%= text_field_tag(:q, nil, placeholder: "search by movie title", class: "form-control") %>
+        <%= submit_tag("Search", class: "btn btn-default") %>
+        <% end %>
 
-    <%= form_tag("/index", method: "get", class: "navbar-form navbar-left hide-form") do %>
-      <%= text_field_tag(:q, nil, placeholder: "search by movie title", class: "form-control") %>
-      <%= submit_tag("Search", class: "btn btn-default") %>
-    <% end %>
 
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav navbar-right">
         <% if current_user %>
-          <li><a href="/collections/<%= current_user.id %>">my collection</a></li>
-          <li><a><%= current_user.name %> logged in with <%= current_user.provider %></a></li>
+          <li><a href="/collections/<%= current_user.id %>"><%= current_user.name %> (<%= current_user.provider %>)</a></li>
           <li><%= link_to "Logout", auth_logout_path %></li>
         <% else %>
           <li><%= link_to "Login with Facebook", "/auth/facebook" %></li>

@@ -1,27 +1,35 @@
-<% if @movies.count == 0 %>
-
 <% if !logged_in? %>
-<div class="row row-eq-height">
+  <div class="row row-eq-height">
 
-  <div class="col-xs-12 col-sm-6 col-md-5 col-md-offset-1">
-    <%= image_tag "whatnext.png", class: "img-responsive" %>
-  </div>
+    <div class="col-xs-12 col-sm-6 col-md-5 col-md-offset-1">
+      <%= image_tag "whatnext.png", class: "img-responsive" %>
+    </div>
 
-  <div class="col-xs-12 col-sm-6 col-md-5 text-center is-flex">
-    <div class="subtext">
-      <h3>Friends don't let friends watch bad movies.</h3>
-      <h4>Login to create collections and vote.</h4>
+    <div class="col-xs-12 col-sm-6 col-md-5 text-center is-flex">
+      <div class="subtext">
+        <h3>Friends don't let friends watch bad movies.</h3>
+        <h4>Login to create collections and vote.</h4>
         <%= link_to "Login with Facebook", "/auth/facebook", class:"btn btn-primary" %>
         <%= link_to "Login with Twitter", "/auth/twitter", class:"btn btn-info"  %>
-      <%= form_tag("/index", method: "get", class: "navbar-form") do %>
-      <h4>Find a movie...</h4>
+        <%= form_tag("/index", method: "get", class: "navbar-form") do %>
+        <h4>Find a movie...</h4>
         <%= text_field_tag(:q, nil, placeholder: "search by movie title", class: "form-control") %>
         <%= submit_tag("Search", class: "btn btn-default") %>
-      <% end %>
+        <% end %>
+      </div>
     </div>
   </div>
-</div>
 <% end %>
+
+<div class="text-center">
+<% if @movies.length > 0 %>
+  <% @movies.each do |movie| %>
+  <a href='/show?q=<%= movie["imdbID"] %>'>
+    <img class="movie-img" src="<%= movie["Poster"] %>" alt="<%= movie["Title"] %>" />
+  </a>
+  <% end %>
+<% end %>
+</div>
 
 <div class="text-center">
   <h3>Browse our users' collections</h3>
@@ -35,19 +43,10 @@
 </div>
 
 <div class="text-center">
-  <h3>Movies in our users' collections...</h3>
+  <h3>Browse movies in our users' collections...</h3>
   <% @collections.each do |collection| %>
-    <a href='/show?q=<%= collection.movie_id %>'>
-      <img class="movie-img" src="<%= collection.movie_poster %>" alt="<%= collection.movie_title %>" />
-    </a>
+  <a href='/show?q=<%= collection.movie_id %>'>
+    <img class="movie-img" src="<%= collection.movie_poster %>" alt="<%= collection.movie_title %>" />
+  </a>
   <% end %>
 </div>
-
-
-<% else %>
-<% @movies.each do |movie| %>
-  <a href='/show?q=<%= movie["imdbID"] %>'>
-    <img class="movie-img" src="<%= movie["Poster"] %>" alt="<%= movie["Title"] %>" />
-  </a>
-<% end %>
-<% end %>
