@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Whatsnext</title>
+    <title>what's next? v1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <%= csrf_meta_tags %>
-
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    
   </head>
 
   <body>
+
     <%= render "partials/header" %>
+
     <div class="container">
       <%= yield %>
     </div>
+
     <%= render "partials/footer" %>
 
     <%= javascript_include_tag 'application' %>

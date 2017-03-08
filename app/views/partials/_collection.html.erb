@@ -1,117 +1,101 @@
 <div class="row">
-  <div class="col-md-9">
+
+  <div class="col-sm-9 col-md-8 col-md-offset-1">
     <div>
-    <% if @collections.count == 0 %>
-      <%= image_tag("nothinghere.jpg") %>
+      <% if @collections.count == 0 %>
+        <%= image_tag("nothinghere.jpg", class: "img-responsive") %>
+      <% else %>
+        <% @collections.each do |collection| %>
+          <div class="row coll">
 
-    <% else %>
+            <div class="col-xs-5 col-sm-2 text-center info">
+                <% if current_user && current_user.upvoted?(collection) %>
+                  <%= button_to "watch!", upvote_collection_path(collection), method: :post, class: "btn btn-sm btn-success" %>
+                <% elsif current_user %>
+                  <%= button_to "watch!", upvote_collection_path(collection), method: :post, class: "btn btn-default" %>
+                <% end %>
+                <span class="badge"><%= collection.upvotes %></span>
+                <span class="badge">
+                  <% if collection.downvotes > 0 %>-<% end %>
+                  <%= collection.downvotes %>
+                </span>
 
-  <% @collections.each do |collection| %>
-      <div class="media panel">
+                <% if current_user && current_user.downvoted?(collection) %>
+                  <%= button_to "meh", downvote_collection_path(collection), method: :post, class: "btn btn-sm btn-danger" %>
+                <% elsif current_user %>
+                  <%= button_to "meh", downvote_collection_path(collection), method: :post, class: "btn btn-default" %>
+                <% end %>
 
-        <div class="media-left votes">
-
-          <% if current_user && current_user.upvoted?(collection) %>
-            <%= button_to "SO GOOD", upvote_collection_path(collection), method: :post, class: "btn btn-success" %>
-            <% elsif current_user %>
-            <%= button_to "SO GOOD", upvote_collection_path(collection), method: :post, class: "btn btn-default" %>
-          <% end %>
-
-
-          <span class="badge"><%= collection.upvotes %></span>
-          <span class="badge">
-            <% if collection.downvotes > 0 %>
-            -
-            <% end %>
-            <%= collection.downvotes %></span>
-
-            <% if current_user && current_user.downvoted?(collection) %>
-              <%= button_to "this sucks", downvote_collection_path(collection), method: :post, class: "btn btn-danger" %>
-            <% elsif current_user %>
-              <%= button_to "this sucks", downvote_collection_path(collection), method: :post, class: "btn btn-default" %>
-            <% end %>
-
-            <div class="points" style="border: 1px solid; width: 80%; margin: 20% 10%; font-size: 30px; text-align:center">
-              <%= collection.points %>
+                <div class="points">
+                  <h3><%= collection.points %></h3>
+                </div>
             </div>
 
-        </div>
+            <div class="col-xs-7 col-sm-4">
+              <a href='/show?q=<%= collection.movie_id %>'>
+                <img class="indiv" src="<%= collection.movie_poster %>" alt="<%= collection.movie_title %>">
+              </a>
+            </div>
 
+            <div class="col-xs-12 col-sm-6 no-show">
+              <h4 class="media-heading no-show"><%= collection.movie_title %></h4>
+              <p><%= collection.movie_plot %></p>
+              <p>Upvotes:
+                <% @votes.each do |vote| %>
+                  <% if collection.id == vote.collection_id && vote.upvote == 1 %>
+                  <span class="name"><%= User.find(vote.user_id).name %></span>
+                  <% end %>
+                <% end %>
+              </p>
+              <p>Downvotes:
+                <% @votes.each do |vote| %>
+                  <% if collection.id == vote.collection_id && vote.downvote == 1 %>
+                  <span class="name"><%= User.find(vote.user_id).name %></span>
+                  <% end %>
+                <% end %>
+              </p>
+              <% if logged_in? && current_user.id == collection.user_id %>
+                <%= link_to "remove from my collection", collection, class: "btn btn-warning", method: :delete, data: { confirm: "Are you sure?" } %>
 
-        <div class="media-left smol">
-          <a href='/show?q=<%= collection.movie_id %>'>
-            <img class="list-object" src="<%= collection.movie_poster %>" alt="<%= collection.movie_title %>">
-          </a>
-        </div>
+              <% elsif logged_in? && current_user.id != collection.user_id %>
+                <% if @my_movies.where("movie_title = ?", collection.movie_title).first %>
+                <%= link_to "remove from my collection", collection, class: "btn btn-warning", method: :delete, data: { confirm: "Are you sure?" } %>
+                <% else %>
 
-        <div class="media-body deets">
-          <h4 class="media-heading"><%= collection.movie_title %></h4>
-          <p><%= collection.movie_plot %></p>
-          <p>Upvotes:
-            <% @votes.each do |vote| %>
-              <% if collection.id == vote.collection_id && vote.upvote == 1 %>
-              <span class="name"><%= User.find(vote.user_id).name %></span>
+                <%= form_for :collection, url: {:controller => 'collections', :action => 'create'} do |t| %>
+
+                <%= t.hidden_field :user_id, :value => current_user %>
+                <%= t.hidden_field :movie_id, :value => collection.movie_id %>
+                <%= t.hidden_field :movie_title, :value => collection.movie_title %>
+                <%= t.hidden_field :movie_poster, :value => collection.movie_poster %>
+                <%= t.hidden_field :movie_year, :value => collection.movie_year %>
+                <%= t.hidden_field :movie_plot, :value => collection.movie_plot %>
+                <%= t.hidden_field :movie_runtime, :value => collection.movie_runtime %>
+                <%= t.hidden_field :movie_genre, :value => collection.movie_genre %>
+                <%= t.hidden_field :movie_metascore, :value => collection.movie_metascore %>
+                <%= t.hidden_field :movie_imdbRating, :value => collection.movie_imdbRating %>
+
+                <%= t.submit "add to my collection", :class => "btn btn-info" %>
+                <% end %>
+                <% end %>
+              <% else %>
+                <h4>Log in to add this to your movies!</h4>
               <% end %>
-            <% end %>
-          </p>
-          <p>Downvotes:
-            <% @votes.each do |vote| %>
-              <% if collection.id == vote.collection_id && vote.downvote == 1 %>
-              <span class="name"><%= User.find(vote.user_id).name %></span>
-              <% end %>
-            <% end %>
-          </p>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
 
-          <% if logged_in? && current_user.id == collection.user_id %>
-            <%= link_to "remove from my collection", collection, class: "btn btn-sm btn-warning", method: :delete, data: { confirm: "Are you sure?" } %>
-
-          <% elsif logged_in? && current_user.id != collection.user_id %>
-            <% if @my_movies.where("movie_title = ?", collection.movie_title).first %>
-            <%= link_to "remove from my collection", collection, class: "btn btn-sm btn-warning", method: :delete, data: { confirm: "Are you sure?" } %>
-            <% else %>
-
-            <%= form_for :collection, url: {:controller => 'collections', :action => 'create'} do |t| %>
-
-            <%= t.hidden_field :user_id, :value => current_user %>
-            <%= t.hidden_field :movie_id, :value => collection.movie_id %>
-            <%= t.hidden_field :movie_title, :value => collection.movie_title %>
-            <%= t.hidden_field :movie_poster, :value => collection.movie_poster %>
-            <%= t.hidden_field :movie_year, :value => collection.movie_year %>
-            <%= t.hidden_field :movie_plot, :value => collection.movie_plot %>
-            <%= t.hidden_field :movie_runtime, :value => collection.movie_runtime %>
-            <%= t.hidden_field :movie_genre, :value => collection.movie_genre %>
-            <%= t.hidden_field :movie_metascore, :value => collection.movie_metascore %>
-            <%= t.hidden_field :movie_imdbRating, :value => collection.movie_imdbRating %>
-
-            <%= t.submit "add to my collection", :class => "btn btn-sm btn-info" %>
-            <% end %>
-            <% end %>
-          <% else %>
-            <h4>Add this to your movies!</h4>
-            <%= link_to "Login with Facebook!", "/auth/facebook", class: "btn btn-default" %>
-            <%= link_to "Login with Twitter!", "/auth/twitter", class: "btn btn-default" %>
-          <% end %>
-
-        </div>
-      </div>
-  <% end %>
-  <% end %>
-
-</div>
-</div>
-
-  <div class="col-md-3" style="background-color: white">
+  <div class="col-sm-3 col-md-3">
     <section>
       <h3>Browse other users' collections</h3>
       <ul>
-    <% @users.each do |user| %>
-      <li>
-        <a href="/collections/<%= user.id %>">
-          <%= user.name %>
-        </a>
-      </li>
-    <% end %>
-  </ul>
-  </section>
+        <% @users.each do |user| %>
+        <li><a href="/collections/<%= user.id %>"><%= user.name %></a></li>
+        <% end %>
+      </ul>
+    </section>
   </div>
 </div>

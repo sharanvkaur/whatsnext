@@ -1,64 +1,46 @@
+<div class="row center">
+  <div class="col-xs-12 col-sm-6 col-md-5 col-md-offset-1 col-lg-4 col-lg-offset-2 text-center">
+    <img class="img-responsive" src="<%= @movie["Poster"] %>" alt="<%= @movie["Title"] %>" />
+  </div>
+  <div class="col-xs-12 col-sm-6 col-md-5 col-lg-3">
+    <h1><%= @movie["Title"] %>
+      <small>(<%= @movie["Year"] %>)</small></h1>
+    <p><%= @movie["Plot"] %></p>
+    <p>Runtime: <%= @movie["Runtime"] %></p>
+    <p>Released: <%= @movie["Released"] %></p>
+    <p>Genre: <%= @movie["Genre"] %></p>
+    <p>Director: <%= @movie["Director"] %></p>
+    <p>Actors: <%= @movie["Actors"] %></p>
+    <p>Awards: <%= @movie["Awards"] %></p>
+    <p>Metascore: <%= @movie["Metascore"] %></p>
+    <p>imdb Rating: <%= @movie["imdbRating"] %>/10 based on <%= @movie["imdbVotes"] %> votes.</p>
+    <p><a href="http://imdb.com/title/<%= @movie["imdbID"] %>">View on ImDB</a></p>
 
-<div class="movie-container">
-  <div class="media">
-    <div class="media-left">
-      <a href="#">
-        <img class="media-object" src="<%= @movie["Poster"] %>" alt="<%= @movie["Title"] %>" />
-      </a>
-    </div>
+    <% if !current_user %>
+      <h4>Want to add this to your own collection?</h4>
+      <%= link_to "Login with Facebook", "/auth/facebook", class: "btn btn-primary" %>
+      <%= link_to "Login with Twitter", "/auth/twitter", class: "btn btn-info" %>
 
-    <div class="media-body">
+    <% elsif !@user_has_movie %>
+      <%= form_for :collection, url: {:controller => 'collections', :action => 'create'} do |t| %>
 
-      <h1><%= @movie["Title"] %></h1>
-      <h2><%= @movie["Year"] %></h2>
-      <p><%= @movie["Plot"] %></p>
-      <p>Runtime: <%= @movie["Runtime"] %></p>
-      <p>Released: <%= @movie["Released"] %></p>
-      <p>Genre: <%= @movie["Genre"] %></p>
-      <p>Director: <%= @movie["Director"] %></p>
-      <p>Actors: <%= @movie["Actors"] %></p>
-      <p>Awards: <%= @movie["Awards"] %></p>
-      <p>Metascore: <%= @movie["Metascore"] %></p>
-      <p>imdb Rating: <%= @movie["imdbRating"] %>/10 based on <%= @movie["imdbVotes"] %>votes.</p>
-      <p>imdbID: <%= @movie["imdbID"] %></p>
+      <%= t.hidden_field :user_id, :value => current_user %>
+      <%= t.hidden_field :movie_id, :value => @movie["imdbID"] %>
+      <%= t.hidden_field :movie_title, :value => @movie["Title"] %>
+      <%= t.hidden_field :movie_poster, :value => @movie["Poster"] %>
+      <%= t.hidden_field :movie_year, :value => @movie["Year"] %>
+      <%= t.hidden_field :movie_plot, :value => @movie["Plot"] %>
+      <%= t.hidden_field :movie_runtime, :value => @movie["Runtime"] %>
+      <%= t.hidden_field :movie_genre, :value => @movie["Genre"] %>
+      <%= t.hidden_field :movie_metascore, :value => @movie["Metascore"] %>
+      <%= t.hidden_field :movie_imdbRating, :value => @movie["imdbRating"] %>
 
-
-      <% if !current_user %>
-        <h4>Want to add this to your own collection?</h4>
-        <%= link_to "Login with Facebook!", "/auth/facebook", class: "btn btn-default" %>
-        <%= link_to "Login with Twitter!", "/auth/twitter", class: "btn btn-default" %>
-
-      <% elsif !@user_has_movie %>
-        <%= form_for :collection, url: {:controller => 'collections', :action => 'create'} do |t| %>
-
-        <%= t.hidden_field :user_id, :value => current_user %>
-        <%= t.hidden_field :movie_id, :value => @movie["imdbID"] %>
-        <%= t.hidden_field :movie_title, :value => @movie["Title"] %>
-        <%= t.hidden_field :movie_poster, :value => @movie["Poster"] %>
-        <%= t.hidden_field :movie_year, :value => @movie["Year"] %>
-        <%= t.hidden_field :movie_plot, :value => @movie["Plot"] %>
-        <%= t.hidden_field :movie_runtime, :value => @movie["Runtime"] %>
-        <%= t.hidden_field :movie_genre, :value => @movie["Genre"] %>
-        <%= t.hidden_field :movie_metascore, :value => @movie["Metascore"] %>
-        <%= t.hidden_field :movie_imdbRating, :value => @movie["imdbRating"] %>
-
-        <%= t.submit "add to my collection", :class => "btn btn-info" %>
-        <% end %>
-
-      <% else @user_has_movie %>
-        <a href="/collections/<%= current_user.id %>"><button class="btn btn-success">View this movie in my collection</button></a>
-
+      <%= t.submit "add to my collection", :class => "btn btn-info" %>
       <% end %>
 
+    <% else @user_has_movie %>
+      <a href="/collections/<%= current_user.id %>"><button class="btn btn-success">View this movie in my collection</button></a>
 
-
-
-
-
-
-
-
-
-    </div>
+    <% end %>
   </div>
 </div>

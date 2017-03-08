@@ -15,88 +15,112 @@
  @import "bootstrap-sprockets";
  @import "bootstrap";
 
+ @media (max-width: 550px) {
+   .navbar-form {
+     display: none;
+   }
+   .media-object {
+     width: 1vw;
+   }
+   .no-show {
+     display: none;
+   }
 
- .movie-img {
-   height: 450px;
-   width: 300px;
-   margin: 20px;
+
  }
+ @media (min-width: 551px) and (max-width: 770px) {
+   .navbar-form {
+     display: none;
+   }
+   .no-show {
+     display: none;
+   }
 
- // .container {
- //   background-color: silver;
- //   padding: 10px;
- // }
-
- .center {
-   margin: 0 auto;
-   text-align: center;
  }
-
- .inside {
-   padding: 25% 0px;
-   font-family: 'Roboto', sans-serif;
-   width: 80%;
-   margin: 0 auto;
-   font-size: 4em;
+ @media (min-width: 771px) and (max-width: 1200px) {
+   .hide-form {
+     display: none;
+   }
+   .row-eq-height {
+     display: -webkit-box;
+     display: -webkit-flex;
+     display: -ms-flexbox;
+     display: flex;
+   }
+   .is-flex {
+     padding-top: 10%;
+   }
  }
+ @media (min-width: 1201px) {
+   .row-eq-height {
+     display: -webkit-box;
+     display: -webkit-flex;
+     display: -ms-flexbox;
+     display: flex;
+   }
+   .is-flex {
+     padding-top: 12%;
+   }
+ }
+// ===============================//
+
+// Landing Page
+ul {
+  list-style-type: none;
+}
+.subtext {
+ font-family: 'Roboto', sans-serif;
+ height: 100%;
+}
+.main-form {
+ padding: none;
+}
+.movie-img {
+ height: 450px;
+ width: 300px;
+ margin: 10px;
+}
 
 // INDIV MOVIE PAGE
-.movie-container {
-  // background-color: plum;
-  //  word-wrap: break-word;
-  //  height: 100%;
-  // padding: 40px;
-  width: 80%;
+
+.col-md-5 {
+  max-height: 760px;
+}
+.img-responsive {
+  width: 100%;
+  min-width: 320px;
+  max-width: 480px;
+  height: auto;
   margin: 0 auto;
 }
 
- .media-left {
-   padding: 10px;
-   width: 45%;
- }
- .media-object {
-   width: 100%;
- }
-
- .media-body {
-   padding: 5px 100px 0px 20px;
- }
-
- // COLLECTION PAGE
- .panel {
-   padding-bottom: 3px;
-   border-bottom: 3px solid;
- }
- .section {
-   width: 40%;
- }
- .votes {
-   width: 10%;
- }
- .badge {
-   height: 34px;
-   width: 40px;
-   padding: 15px 0px 35px 0px;
-   background-color: white;
-   color: black;
-   font-size: 20px;
- }
- .list-object {
-   height: 180px;
-   width: 120px;
- }
- .smol {
-   width: 150px;
- }
- .name {
-   background-color: slategrey;
-   padding: 2px 5px;
-   color: white;
-   font-size: 10px;
- }
- .deets {
-   padding-top: 8px;
- }
+// COLLECTION PAGE
+.coll {
+  border: 1px solid;
+  background-color: grey;
+  margin: 3px;
+}
+.indiv {
+  max-width: 240px;
+  width:100%;
+}
+.badge {
+  background-color: white;
+  color: black;
+  // font-size: 20px;
+}
+.points {
+  text-align: center;
+}
+.info {
+  margin-top: 6%;
+}
+.media-header {
+  margin-top: 4%;
+}
+.no-show {
+  margin-top: 12px;
+}
 
 
 // FOOTER

@@ -1,51 +1,53 @@
-<div class="center">
+<% if @movies.count == 0 %>
 
-  <% if @movies.count == 0 %>
-    <div class="row" style="margin-top:80px">
+<% if !logged_in? %>
+<div class="row row-eq-height">
 
-      <div class="col-md-6">
-        <%= image_tag "whatnext.png", :style => "height: 100%; width: 100%" %>
-      </div>
+  <div class="col-xs-12 col-sm-6 col-md-5 col-md-offset-1">
+    <%= image_tag "whatnext.png", class: "img-responsive" %>
+  </div>
 
-      <div class="col-md-6">
-        <div class="inside">
-          <h1>Friends don't let friends watch bad movies.</h1>
-          <h2>Add a movie to your list now.</h2>
-          <%= form_tag("/index", method: "get", class: "navbar-form") do %>
-            <%= text_field_tag(:q, nil, placeholder: "search by movie title", class: "form-control") %>
-            <%= submit_tag("Search", class: "btn btn-default") %>
-          <% end %>
-
-        </div>
-      </div>
-
-    </div>
-
-    <div style="background-color: white; margin-top:50px">
-      <h1>Browse our users' collections</h1>
-      <% @users.each do |user| %>
-      <a href='/collections/<%= user.id %>'>
-        <li><%= user.name %></li>
-      </a>
+  <div class="col-xs-12 col-sm-6 col-md-5 text-center is-flex">
+    <div class="subtext">
+      <h3>Friends don't let friends watch bad movies.</h3>
+      <h4>Login to create collections and vote.</h4>
+        <%= link_to "Login with Facebook", "/auth/facebook", class:"btn btn-primary" %>
+        <%= link_to "Login with Twitter", "/auth/twitter", class:"btn btn-info"  %>
+      <%= form_tag("/index", method: "get", class: "navbar-form") do %>
+      <h4>Find a movie...</h4>
+        <%= text_field_tag(:q, nil, placeholder: "search by movie title", class: "form-control") %>
+        <%= submit_tag("Search", class: "btn btn-default") %>
       <% end %>
     </div>
-
-    <div style="background-color: white; margin-top:50px">
-      <h1>Movies in our users' collections...</h1>
-      <% @collections.each do |collection| %>
-        <a href='/show?q=<%= collection.movie_id %>'>
-          <img class="movie-img" src="<%= collection.movie_poster %>" alt="<%= collection.movie_title %>" />
-        </a>
-      <% end %>
-    </div>
-
-
-  <% else %>
-    <% @movies.each do |movie| %>
-      <a href='/show?q=<%= movie["imdbID"] %>'>
-        <img class="movie-img" src="<%= movie["Poster"] %>" alt="<%= movie["Title"] %>" />
-      </a>
-    <% end %>
-  <% end %>
-
+  </div>
 </div>
+<% end %>
+
+<div class="text-center">
+  <h3>Browse our users' collections</h3>
+  <ul>
+    <% @users.each do |user| %>
+    <a href='/collections/<%= user.id %>'>
+      <li><%= user.name %></li>
+    </a>
+    <% end %>
+  </ul>
+</div>
+
+<div class="text-center">
+  <h3>Movies in our users' collections...</h3>
+  <% @collections.each do |collection| %>
+    <a href='/show?q=<%= collection.movie_id %>'>
+      <img class="movie-img" src="<%= collection.movie_poster %>" alt="<%= collection.movie_title %>" />
+    </a>
+  <% end %>
+</div>
+
+
+<% else %>
+<% @movies.each do |movie| %>
+  <a href='/show?q=<%= movie["imdbID"] %>'>
+    <img class="movie-img" src="<%= movie["Poster"] %>" alt="<%= movie["Title"] %>" />
+  </a>
+<% end %>
+<% end %>
