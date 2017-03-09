@@ -1,11 +1,12 @@
 class CollectionsController < ApplicationController
-  before_action :current_user
+  before_action :current_user, :flixlist
   before_action :prevent_unauthorized_user_access, except: [:index, :show]
 
   def index
     @users = User.all
     @votes = Vote.all
     @collections = Collection.where("user_id = ?", current_user.id)
+    @flixlist
   end
 
   def show

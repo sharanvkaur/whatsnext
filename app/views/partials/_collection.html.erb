@@ -55,10 +55,13 @@
 
             </div>
 
-            <div class="col-xs-7 col-sm-4">
+            <div class="col-xs-7 col-sm-4 colflix">
               <a href='/show?q=<%= collection.movie_id %>'>
                 <img class="indiv" src="<%= collection.movie_poster %>" alt="<%= collection.movie_title %>">
               </a>
+              <% if @flixlist.include?(collection.movie_title) %>
+              <%= image_tag("netflixsq.png", class: "netflix-list") %>
+              <% end %>
             </div>
 
             <div class="col-xs-12 col-sm-6 no-show">

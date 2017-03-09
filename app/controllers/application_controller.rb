@@ -13,5 +13,23 @@ class ApplicationController < ActionController::Base
     current_user.nil? ? false : true
   end
 
-  helper_method :current_user, :logged_in?
+  def scrape_netflix
+    require 'open-uri'
+    doc = Nokogiri::HTML(open("https://www.finder.com/sg/netflix-movies"))
+
+    netflix = doc.css('.custom-table')
+
+    netflixArray= []
+    doc.xpath('//*/table/tbody/tr/td[1]').each do |netflix|
+      netflixArray << netflix.text
+    end
+    p netflixArray
+  end
+
+  def flixlist
+    @flixlist = scrape_netflix
+  end
+
+
+  helper_method :current_user, :logged_in?, :flixlist
 end
